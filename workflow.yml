@@ -1,4 +1,4 @@
-name: build bot.py
+name: Rec Workflow
 on: [push]
 
 jobs:

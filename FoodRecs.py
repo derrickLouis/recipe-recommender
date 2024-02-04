@@ -1,6 +1,10 @@
 import requests
 import streamlit as st
 import random
+import os
+
+app_id = os.environ["api_id"]  #Initialize secret api_id
+app_key = os.environ["api_key"] #Initialize secret api_key
 
 st.set_page_config(#NEW (04)
     page_title="Food Recs App",
@@ -8,7 +12,7 @@ st.set_page_config(#NEW (04)
     layout="wide",)
 
 #Title Page
-def title():
+def title(): #First page useer sees
     st.header("Welcome to Food Recs!")
     st.subheader("Enter your desired info to the left and watch the magic unfold.")
     st.image("images/food.jpg", width = 200)
@@ -19,12 +23,12 @@ def title():
 title()
 def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, randomOption=False):
     #url Builder
-    baseurl = f"https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&dishType=Main%20course"
+    baseurl = f"https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&dishType=Main%20course" #Api url
     if type(health) != None:
         for allergy in health:
-            baseurl += f"&health={allergy}"
-    baseurl += f"&mealType={time}"
-    if minimum <= maximum:
+            baseurl += f"&health={allergy}" #Adds user chosen allergies to baseurl
+    baseurl += f"&mealType={time}" #Adds user chosen time of day
+    if minimum <= maximum: #Ensures calorie choice is possible, adds calorie range to baseurl
         baseurl += f"&calories={minimum}-{maximum}"
         r = requests.get(baseurl)
         data = r.json()
@@ -42,8 +46,8 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
 
         randoList = []
         for num in range(iterations):
-            try:
-                if randomOption:
+            try: #Handles unexpected error
+                if randomOption: #Allows user to have completely unique responses
                     randomNum = random.randint(0,len(data['hits']))
                     while randomNum in randoList:
                         randomNum = random.randint(0,len(data['hits']))
@@ -53,7 +57,7 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
                     st.markdown(foodimg, unsafe_allow_html=True)
                     for place,ingredient in enumerate(data['hits'][randomNum]['recipe']['ingredientLines']):
                         st.write(f"{place + 1}. {ingredient}")   
-                else:
+                else: #Doesn't make choices unique...May have duplicates or show same order of recipes
                     st.subheader(f"{data['hits'][num]['recipe']['label']}")
                     foodimg = f"<img src={data['hits'][num]['recipe']['image']} alt='Food' width='100' height='100'>"
                     st.markdown(foodimg, unsafe_allow_html=True)
@@ -65,7 +69,7 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
     except:
         st.write("Aw man there was an issue with your input...check again and everything will be fine.")
 
-#SideBar
+#SideBar - Allows user input
 st.sidebar.title("Recipe Filters")
 
 time = st.sidebar.radio("Select a Time of Day", ['Breakfast','Dinner','Lunch','Snack'],index=None)
@@ -84,5 +88,3 @@ randomOption = st.sidebar.toggle("Random Options") #NEW (03)
 
 aCount = st.sidebar.number_input("How many results do you want?",step=1,min_value=0,max_value=10000)
 recipeInfo(time,health,minimum,maximum,aCount,randomOption)
-
-
