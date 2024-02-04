@@ -1,0 +1,20 @@
+name: build bot.py
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: load content
+              uses: actions/checkout@v2
+              
+            - name: load python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.11.4' # install the python version needed
+
+            - name: start bot
+              env:
+                api_id: ${{ secrets.api_id }}
+                api_key: ${{ secrets.api_key }}
+              run: python FoodRecs.py
