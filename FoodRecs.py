@@ -1,6 +1,10 @@
 import requests
 import streamlit as st
 import random
+import os
+
+app_id = os.environ["api_id"]
+app_key = os.environ["api_key"]
 
 st.set_page_config(#NEW (04)
     page_title="Food Recs App",
