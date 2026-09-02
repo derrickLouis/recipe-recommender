@@ -1,0 +1,20 @@
+name: Rec Workflow
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: load content
+              uses: actions/checkout@v4
+
+            - name: load python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.11.4' # install the python version needed
+
+            - name: install dependencies
+              run: pip install requests streamlit
+
+            - name: check app compiles
+              run: python -m compileall -q FoodRecs.py
