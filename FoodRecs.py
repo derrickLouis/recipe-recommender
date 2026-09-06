@@ -24,7 +24,7 @@ title()
 def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, randomOption=False):
     #url Builder
     baseurl = f"https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&dishType=Main%20course" #Api url
-    if type(health) != None:
+    if health:
         for allergy in health:
             baseurl += f"&health={allergy}" #Adds user chosen allergies to baseurl
     baseurl += f"&mealType={time}" #Adds user chosen time of day
@@ -43,14 +43,15 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
         else:
             st.write("We don't have that many recipes! But here's what we do have.")
             iterations = 5
+        iterations = min(iterations, len(data['hits'])) #Never ask for more than this page holds
 
         randoList = []
         for num in range(iterations):
             try: #Handles unexpected error
                 if randomOption: #Allows user to have completely unique responses
-                    randomNum = random.randint(0,len(data['hits']))
+                    randomNum = random.randint(0,len(data['hits']) - 1)
                     while randomNum in randoList:
-                        randomNum = random.randint(0,len(data['hits']))
+                        randomNum = random.randint(0,len(data['hits']) - 1)
                     randoList += [randomNum]    
                     st.subheader(f"{data['hits'][randomNum]['recipe']['label']}")
                     foodimg = f"<img src={data['hits'][randomNum]['recipe']['image']} alt='Food' width='100' height='100'>"
