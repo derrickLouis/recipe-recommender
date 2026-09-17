@@ -34,7 +34,8 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
         data = r.json()
     else:
         st.write("Sorry! Your minimum can't be more than your max!")
-    
+        return
+
     #Print the Recipes
     try:
         recipeCount = data["count"]
