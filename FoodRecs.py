@@ -30,7 +30,7 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
     baseurl += f"&mealType={time}" #Adds user chosen time of day
     if minimum <= maximum: #Ensures calorie choice is possible, adds calorie range to baseurl
         baseurl += f"&calories={minimum}-{maximum}"
-        r = requests.get(baseurl)
+        r = requests.get(baseurl, timeout=10) #Avoid hanging forever if the API doesn't respond
         data = r.json()
     else:
         st.write("Sorry! Your minimum can't be more than your max!")
