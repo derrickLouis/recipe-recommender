@@ -66,9 +66,9 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
                     for place,ingredient in enumerate(data['hits'][num]['recipe']['ingredientLines']):
                         st.write(f"{place + 1}. {ingredient}")
                 st.write("---")
-            except:
+            except (KeyError, IndexError):
                 continue
-    except:
+    except (KeyError, TypeError):
         st.write("Aw man there was an issue with your input...check again and everything will be fine.")
 
 #SideBar - Allows user input
