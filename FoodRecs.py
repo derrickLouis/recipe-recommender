@@ -55,14 +55,12 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
                         randomNum = random.randint(0,len(data['hits']) - 1)
                     randoList += [randomNum]    
                     st.subheader(f"{data['hits'][randomNum]['recipe']['label']}")
-                    foodimg = f"<img src=\"{data['hits'][randomNum]['recipe']['image']}\" alt='Food' width='100' height='100'>"
-                    st.markdown(foodimg, unsafe_allow_html=True)
+                    st.image(data['hits'][randomNum]['recipe']['image'], width=100)
                     for place,ingredient in enumerate(data['hits'][randomNum]['recipe']['ingredientLines']):
                         st.write(f"{place + 1}. {ingredient}")   
                 else: #Doesn't make choices unique...May have duplicates or show same order of recipes
                     st.subheader(f"{data['hits'][num]['recipe']['label']}")
-                    foodimg = f"<img src=\"{data['hits'][num]['recipe']['image']}\" alt='Food' width='100' height='100'>"
-                    st.markdown(foodimg, unsafe_allow_html=True)
+                    st.image(data['hits'][num]['recipe']['image'], width=100)
                     for place,ingredient in enumerate(data['hits'][num]['recipe']['ingredientLines']):
                         st.write(f"{place + 1}. {ingredient}")
                 st.write("---")
