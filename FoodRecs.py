@@ -48,7 +48,7 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
             iterations = aCount
         else:
             st.write("We don't have that many recipes! But here's what we do have.")
-            iterations = 5
+            iterations = recipeCount
         iterations = min(iterations, len(data['hits'])) #Never ask for more than this page holds
 
         randoList = []
