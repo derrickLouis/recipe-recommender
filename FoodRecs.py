@@ -27,7 +27,8 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
     if health:
         for allergy in health:
             baseurl += f"&health={allergy}" #Adds user chosen allergies to baseurl
-    baseurl += f"&mealType={time}" #Adds user chosen time of day
+    if time:
+        baseurl += f"&mealType={time}" #Adds user chosen time of day
     if minimum <= maximum: #Ensures calorie choice is possible, adds calorie range to baseurl
         baseurl += f"&calories={minimum}-{maximum}"
         try:
