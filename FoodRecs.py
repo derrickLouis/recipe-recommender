@@ -92,5 +92,5 @@ maximum = int(abs(maximum // 1))
 
 randomOption = st.sidebar.toggle("Random Options") #NEW (03)
 
-aCount = st.sidebar.number_input("How many results do you want?",step=1,min_value=0,max_value=10000)
+aCount = st.sidebar.number_input("How many results do you want?",step=1,min_value=1,max_value=10000,value=10) #Avoid silently returning zero recipes
 recipeInfo(time,health,minimum,maximum,aCount,randomOption)
