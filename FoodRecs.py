@@ -3,13 +3,17 @@ import streamlit as st
 import random
 import os
 
-app_id = os.environ["api_id"]  #Initialize secret api_id
-app_key = os.environ["api_key"] #Initialize secret api_key
-
 st.set_page_config(#NEW (04)
     page_title="Food Recs App",
     page_icon="🧊",
     layout="wide",)
+
+try:
+    app_id = os.environ["api_id"]  #Initialize secret api_id
+    app_key = os.environ["api_key"] #Initialize secret api_key
+except KeyError:
+    st.error("Missing Edamam API credentials. Please set the api_id and api_key environment variables.")
+    st.stop()
 
 #Title Page
 def title(): #First page useer sees
