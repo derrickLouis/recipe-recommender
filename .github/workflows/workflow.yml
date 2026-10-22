@@ -14,7 +14,7 @@ jobs:
                 python-version: '3.11.4' # install the python version needed
 
             - name: install dependencies
-              run: pip install requests streamlit
+              run: pip install -r requirements.txt
 
             - name: check app compiles
               run: python -m compileall -q FoodRecs.py
