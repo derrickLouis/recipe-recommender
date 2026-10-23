@@ -27,7 +27,7 @@ def title(): #First page useer sees
 title()
 def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, randomOption=False):
     #url Builder
-    baseurl = f"https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}&dishType=Main%20course" #Api url
+    baseurl = f"https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}" #Api url
     if health:
         for allergy in health:
             baseurl += f"&health={allergy}" #Adds user chosen allergies to baseurl
