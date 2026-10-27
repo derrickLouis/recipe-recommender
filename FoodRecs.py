@@ -49,6 +49,9 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
     #Print the Recipes
     try:
         recipeCount = data["count"]
+        if recipeCount == 0:
+            st.write("No recipes matched those filters. Try widening your calorie range or removing a health filter.")
+            return
         if aCount <= recipeCount:
             iterations = aCount
         else:
