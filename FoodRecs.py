@@ -92,7 +92,7 @@ health = st.sidebar.multiselect( #NEW (01)
      'shellfish-free', 'tree-nut-free','vegan','vegetarian','low-sugar'])
 
 minimum = st.sidebar.number_input("Enter a minimum calorie count",step=1,min_value=0,max_value=10000) #NEW (02)
-maximum = st.sidebar.number_input("Enter a maximum calorie count",step=1,min_value=0,max_value=10000)
+maximum = st.sidebar.number_input("Enter a maximum calorie count",step=1,min_value=0,max_value=10000,value=2000) #Default to a usable range instead of 0, so the first search isn't calories=0-0
 
 minimum = int(abs(minimum // 1))
 maximum = int(abs(maximum // 1))
