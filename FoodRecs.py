@@ -25,6 +25,13 @@ def title(): #First page useer sees
     st.subheader("Enjoy!")
     st.write("---")
 title()
+
+@st.cache_data(ttl=600) #Avoid re-hitting the API on every widget interaction for the same filters
+def fetchRecipes(url):
+    r = requests.get(url, timeout=10) #Avoid hanging forever if the API doesn't respond
+    r.raise_for_status()
+    return r.json()
+
 def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, randomOption=False):
     #url Builder
     baseurl = f"https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}" #Api url
@@ -36,9 +43,7 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
     if minimum <= maximum: #Ensures calorie choice is possible, adds calorie range to baseurl
         baseurl += f"&calories={minimum}-{maximum}"
         try:
-            r = requests.get(baseurl, timeout=10) #Avoid hanging forever if the API doesn't respond
-            r.raise_for_status()
-            data = r.json()
+            data = fetchRecipes(baseurl)
         except requests.exceptions.RequestException:
             st.write("Aw man, we couldn't reach the recipe service right now. Please try again in a moment.")
             return
