@@ -62,7 +62,11 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
         else:
             st.write("We don't have that many recipes! But here's what we do have.")
             iterations = recipeCount
-        iterations = min(iterations, len(data['hits'])) #Never ask for more than this page holds
+
+        pageLimit = len(data['hits']) #Edamam only returns one page of hits even when count is higher
+        if iterations > pageLimit:
+            st.write(f"This result page only includes {pageLimit} of the {recipeCount} matching recipes, so that's all we can show right now.")
+            iterations = pageLimit
 
         randoList = []
         for num in range(iterations):
