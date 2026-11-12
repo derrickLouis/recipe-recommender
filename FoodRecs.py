@@ -16,12 +16,12 @@ except KeyError:
     st.stop()
 
 #Title Page
-def title(): #First page useer sees
+def title(): #First page user sees
     st.header("Welcome to Food Recs!")
     st.subheader("Enter your desired info to the left and watch the magic unfold.")
     st.image("Images/food.jpg", width = 200)
     st.write("This app will take your desired filters and give you the ingredients needed to make a recommended dish.")
-    st.write("The app uses Edamam's Recipe API to give you only the best reccomendations!")
+    st.write("The app uses Edamam's Recipe API to give you only the best recommendations!")
     st.subheader("Enjoy!")
     st.write("---")
 title()
