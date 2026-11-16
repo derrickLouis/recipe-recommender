@@ -27,23 +27,22 @@ def title(): #First page user sees
 title()
 
 @st.cache_data(ttl=600) #Avoid re-hitting the API on every widget interaction for the same filters
-def fetchRecipes(url):
-    r = requests.get(url, timeout=10) #Avoid hanging forever if the API doesn't respond
+def fetchRecipes(url, params):
+    r = requests.get(url, params=params, timeout=10) #Avoid hanging forever if the API doesn't respond
     r.raise_for_status()
     return r.json()
 
 def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, randomOption=False):
-    #url Builder
-    baseurl = f"https://api.edamam.com/api/recipes/v2?type=public&app_id={app_id}&app_key={app_key}" #Api url
+    baseurl = "https://api.edamam.com/api/recipes/v2" #Api url
+    params = {"type": "public", "app_id": app_id, "app_key": app_key}
     if health:
-        for allergy in health:
-            baseurl += f"&health={allergy}" #Adds user chosen allergies to baseurl
+        params["health"] = health #Adds user chosen allergies to params; requests repeats the key per value
     if time:
-        baseurl += f"&mealType={time}" #Adds user chosen time of day
-    if minimum <= maximum: #Ensures calorie choice is possible, adds calorie range to baseurl
-        baseurl += f"&calories={minimum}-{maximum}"
+        params["mealType"] = time #Adds user chosen time of day
+    if minimum <= maximum: #Ensures calorie choice is possible, adds calorie range to params
+        params["calories"] = f"{minimum}-{maximum}"
         try:
-            data = fetchRecipes(baseurl)
+            data = fetchRecipes(baseurl, params)
         except requests.exceptions.RequestException:
             st.write("Aw man, we couldn't reach the recipe service right now. Please try again in a moment.")
             return
