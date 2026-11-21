@@ -43,6 +43,15 @@ def recipeInfo(time=None, health=None, minimum=None, maximum=None, aCount=10, ra
         params["calories"] = f"{minimum}-{maximum}"
         try:
             data = fetchRecipes(baseurl, params)
+        except requests.exceptions.HTTPError as err:
+            status = err.response.status_code if err.response is not None else None
+            if status == 401:
+                st.write("Aw man, those API credentials look invalid. Double-check the api_id and api_key environment variables.")
+            elif status == 429:
+                st.write("Aw man, we've hit the recipe service's rate limit. Please wait a bit and try again.")
+            else:
+                st.write("Aw man, the recipe service returned an error. Please try again in a moment.")
+            return
         except requests.exceptions.RequestException:
             st.write("Aw man, we couldn't reach the recipe service right now. Please try again in a moment.")
             return
